@@ -1,0 +1,9 @@
+canvas {
+  border: 2px solid red;
+}
+
+#gameView {
+  display: flex;
+  justify-content: center;
+  padding-top: 300px;
+}
