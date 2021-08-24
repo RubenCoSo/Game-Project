@@ -8,8 +8,8 @@ class Gem {
     this.gemPosition = {
       // x: 200,
       // y: 0,
-      x: Math.floor(Math.random() * 2600),
-      y: Math.floor(Math.random() * 2600),
+      x: Math.floor(Math.random() * 2000),
+      y: Math.floor(Math.random() * 2000),
     };
 
     this.correctionLeft = false;
@@ -32,17 +32,9 @@ class Gem {
   }
 
   correction() {
-    this.gemPosition.x < 400 && this.correctionLeft
-      ? (this.gemPosition.x += 6)
-      : null;
-    this.gemPosition.x > -2400 && this.correctionRight
-      ? (this.gemPosition.x -= 6)
-      : null;
-    this.gemPosition.y < 400 && this.correctionUp
-      ? (this.gemPosition.y += 6)
-      : null;
-    this.gemPosition.y > -2300 && this.correctionDown
-      ? (this.gemPosition.y -= 6)
-      : null;
+    this.correctionLeft ? (this.gemPosition.x += 6) : null;
+    this.correctionRight ? (this.gemPosition.x -= 6) : null;
+    this.correctionUp ? (this.gemPosition.y += 6) : null;
+    this.correctionDown ? (this.gemPosition.y -= 6) : null;
   }
 }

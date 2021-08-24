@@ -55,31 +55,25 @@ const gameApp = {
     setInterval(() => {
       this.clearCanvas();
       this.map.move();
+      console.log(this.map.mapPosition);
       this.gems.forEach((gem) => gem.correction());
-
       this.drawAll();
-      //   this.gems.forEach((gem) => gem.correction());
-      //   this.ctx.drawImage(
-      //     this.gems[0].gem,
-      //     this.gems[0].gemPosition.x,
-      //     this.gems[0].gemPosition.y,
-      //     this.gems[0].gemSize.w,
-      //     this.gems[0].gemSize.h
-      //   );
-      console.log(this.gems[0].gemPosition);
     }, 1000 / 60);
   },
 
   drawAll() {
     this.map.drawMap();
     this.drawMagus();
-    this.ctx.drawImage(
-      this.gems[0].gem,
-      this.gems[0].gemPosition.x,
-      this.gems[0].gemPosition.y,
-      this.gems[0].gemSize.w,
-      this.gems[0].gemSize.h
-    );
+
+    for (let i = 0; i < this.gems.length; i++) {
+      this.ctx.drawImage(
+        this.gems[i].gem,
+        this.gems[i].gemPosition.x,
+        this.gems[i].gemPosition.y,
+        this.gems[i].gemSize.w,
+        this.gems[i].gemSize.h
+      );
+    }
     // this.gems.forEach((gem) => gem.draw());
   },
 
@@ -88,31 +82,31 @@ const gameApp = {
       switch (e.key) {
         case "a":
           this.map.moveLeft = true;
-          this.gems[0].correctionLeft = true;
-          //   this.gems.forEach((gem) => {
-          //     gem.correctionLeft = true;
-          //   });
+          // this.gems[0].correctionLeft = true;
+          this.gems.forEach((gem) => {
+            gem.correctionLeft = true;
+          });
           break;
         case "w":
           this.map.moveUp = true;
-          this.gems[0].correctionUp = true;
-          //   this.gems.forEach((gem) => {
-          //     gem.correctionUp = true;
-          //   });
+          // this.gems[0].correctionUp = true;
+          this.gems.forEach((gem) => {
+            gem.correctionUp = true;
+          });
           break;
         case "d":
           this.map.moveRight = true;
-          this.gems[0].correctionRight = true;
-          //   this.gems.forEach((gem) => {
-          //     gem.correctionRight = true;
-          //   });
+          // this.gems[0].correctionRight = true;
+          this.gems.forEach((gem) => {
+            gem.correctionRight = true;
+          });
           break;
         case "s":
           this.map.moveDown = true;
-          this.gems[0].correctionDown = true;
-          //   this.gems.forEach((gem) => {
-          //     gem.correctionLeft = true;
-          //   });
+          // this.gems[0].correctionDown = true;
+          this.gems.forEach((gem) => {
+            gem.correctionDown = true;
+          });
           break;
       }
     });
@@ -120,31 +114,31 @@ const gameApp = {
       switch (e.key) {
         case "a":
           this.map.moveLeft = false;
-          this.gems[0].correctionLeft = false;
-          //   this.gems.forEach((gem) => {
-          //     gem.correctionLeft = false;
-          //   });
+          // this.gems[0].correctionLeft = false;
+          this.gems.forEach((gem) => {
+            gem.correctionLeft = false;
+          });
           break;
         case "w":
           this.map.moveUp = false;
-          this.gems[0].correctionUp = false;
-          //   this.gems.forEach((gem) => {
-          //     gem.correctionUp = false;
-          //   });
+          // this.gems[0].correctionUp = false;
+          this.gems.forEach((gem) => {
+            gem.correctionUp = false;
+          });
           break;
         case "d":
           this.map.moveRight = false;
-          this.gems[0].correctionRight = false;
-          //   this.gems.forEach((gem) => {
-          //     gem.correctionRight = false;
-          //   });
+          // this.gems[0].correctionRight = false;
+          this.gems.forEach((gem) => {
+            gem.correctionRight = false;
+          });
           break;
         case "s":
           this.map.moveDown = false;
-          this.gems[0].correctionDown = false;
-          //   this.gems.forEach((gem) => {
-          //     gem.correctionLeft = false;
-          //   });
+          // this.gems[0].correctionDown = false;
+          this.gems.forEach((gem) => {
+            gem.correctionDown = false;
+          });
           break;
       }
     });
@@ -162,9 +156,9 @@ const gameApp = {
     }
   },
 
-  //   pickUpGems(){
-  //       this.gems.forEach((gem)=>{
-  //           if (this.map.mapPosition.x === gem.gemPosition.x && this.map.mapPosition.x === gem.gemPosition.x)
-  //       })
-  //   }
+  // pickUpGems(){
+  //     this.gems.forEach((gem, i)=>{
+  //         if (this.map.mapPosition.x === gem.gemPosition.x && this.map.mapPosition.x === gem.gemPosition.x)
+  //     })
+  // }
 };
