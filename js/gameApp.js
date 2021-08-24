@@ -30,8 +30,8 @@ const gameApp = {
   },
 
   setCanvasDimension(canvas) {
-    this.canvasSize.w = 300;
-    this.canvasSize.h = 300;
+    this.canvasSize.w = 800;
+    this.canvasSize.h = 800;
 
     canvas.setAttribute("width", this.canvasSize.w);
     canvas.setAttribute("height", this.canvasSize.h);

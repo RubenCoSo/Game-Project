@@ -14,7 +14,7 @@ class Map {
     this.moveUp = false;
     this.moveDown = false;
 
-    this.map = new Image();
+    (this.canvasSize = canvasSize), (this.map = new Image());
     this.map.src = "../images/pixil-frame-0.png";
   }
 
@@ -29,15 +29,17 @@ class Map {
   }
 
   move() {
-    this.mapPosition.x < 130 && this.moveLeft
-      ? (this.mapPosition.x += 4)
+    this.mapPosition.x < this.canvasSize.w / 2 && this.moveLeft
+      ? (this.mapPosition.x += 6)
       : null;
-    this.mapPosition.x > -2640 && this.moveRight
-      ? (this.mapPosition.x -= 4)
+    this.mapPosition.x > this.canvasSize.w * -3 && this.moveRight
+      ? (this.mapPosition.x -= 6)
       : null;
-    this.mapPosition.y < 108 && this.moveUp ? (this.mapPosition.y += 4) : null;
-    this.mapPosition.y > -2620 && this.moveDown
-      ? (this.mapPosition.y -= 4)
+    this.mapPosition.y < this.canvasSize.h / 2 && this.moveUp
+      ? (this.mapPosition.y += 6)
+      : null;
+    this.mapPosition.y > this.canvasSize.h * -3 && this.moveDown
+      ? (this.mapPosition.y -= 6)
       : null;
   }
 }

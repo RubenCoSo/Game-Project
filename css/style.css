@@ -1,9 +1,48 @@
+body {
+  background-image: url(../images/pixil-frame-0.png);
+  display: flex;
+  justify-content: center;
+}
+
 canvas {
   border: 2px solid red;
+  padding-top: 5rem;
 }
 
 #gameView {
   display: flex;
   justify-content: center;
-  padding-top: 300px;
+  padding-right: 50px;
+  padding-top: 50px;
+}
+
+#gameTittle {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#gameTittle > img {
+  width: 50%;
+}
+
+#startGame {
+  height: 5rem;
+  width: 15rem;
+  font-size: 2rem;
+  font-weight: 700;
+  background-color: rgb(43, 137, 226);
+  color: blueviolet;
+  box-shadow: 5px 5px 15px 10px #a95aff;
+}
+
+#instructions {
+  height: 5rem;
+  width: 15rem;
+  font-size: 2rem;
+  font-weight: 700;
+  background-color: rgb(43, 137, 226);
+  color: blueviolet;
+  box-shadow: 5px 5px 15px 10px #a95aff;
 }
