@@ -9,10 +9,17 @@ const gameApp = {
     h: 80,
   },
 
+  intervalId: undefined,
+
+  score: 0,
+
   gems: [],
 
   MAX_Gems: 5,
 
+  frameCounter: 0,
+
+  timerCounter: 10000,
   init(canvas) {
     this.getContext(canvas);
     this.setCanvasDimension(canvas);
@@ -52,13 +59,25 @@ const gameApp = {
   },
 
   screenRefresh() {
-    setInterval(() => {
+    this.intervalId = setInterval(() => {
       this.clearCanvas();
       this.map.move();
-      // console.log(this.map.mapPosition);
       this.gems.forEach((gem) => gem.correction());
       this.drawAll();
       this.pickUpGems();
+      this.showScores();
+      this.frameCounter++;
+      console.log(this.map.mapPosition);
+      // if (this.gems.length !== 5) {
+      //   this.createGems;
+      // }
+      if (this.frameCounter % 100 === 0) {
+        this.timerCounter--;
+      }
+      if (this.timerCounter === 0) {
+        this.outOfTime();
+      }
+      this.timer();
     }, 1000 / 60);
   },
 
@@ -85,28 +104,38 @@ const gameApp = {
           this.map.moveLeft = true;
           // this.gems[0].correctionLeft = true;
           this.gems.forEach((gem) => {
-            gem.correctionLeft = true;
+            if (this.map.mapPosition.x < 402) {
+              gem.correctionLeft = true;
+            } else {
+              gem.correctionLeft = false;
+            }
           });
           break;
         case "w":
           this.map.moveUp = true;
           // this.gems[0].correctionUp = true;
           this.gems.forEach((gem) => {
-            gem.correctionUp = true;
+            if (this.map.mapPosition.x > this.canvasSize.w * -3) {
+              gem.correctionUp = true;
+            }
           });
           break;
         case "d":
           this.map.moveRight = true;
           // this.gems[0].correctionRight = true;
           this.gems.forEach((gem) => {
-            gem.correctionRight = true;
+            if (this.map.mapPosition.y < this.canvasSize.h / 2) {
+              gem.correctionRight = true;
+            }
           });
           break;
         case "s":
           this.map.moveDown = true;
           // this.gems[0].correctionDown = true;
           this.gems.forEach((gem) => {
-            gem.correctionDown = true;
+            if (this.map.mapPosition.y > this.canvasSize.h * -3) {
+              gem.correctionDown = true;
+            }
           });
           break;
       }
@@ -117,28 +146,36 @@ const gameApp = {
           this.map.moveLeft = false;
           // this.gems[0].correctionLeft = false;
           this.gems.forEach((gem) => {
-            gem.correctionLeft = false;
+            if (this.map.mapPosition.x < 402) {
+              gem.correctionLeft = false;
+            }
           });
           break;
         case "w":
           this.map.moveUp = false;
           // this.gems[0].correctionUp = false;
           this.gems.forEach((gem) => {
-            gem.correctionUp = false;
+            if (this.map.mapPosition.x > this.canvasSize.w * -3) {
+              gem.correctionUp = false;
+            }
           });
           break;
         case "d":
           this.map.moveRight = false;
           // this.gems[0].correctionRight = false;
           this.gems.forEach((gem) => {
-            gem.correctionRight = false;
+            if (this.map.mapPosition.y < this.canvasSize.h / 2) {
+              gem.correctionRight = false;
+            }
           });
           break;
         case "s":
           this.map.moveDown = false;
           // this.gems[0].correctionDown = false;
           this.gems.forEach((gem) => {
-            gem.correctionDown = false;
+            if (this.map.mapPosition.y > this.canvasSize.h * -3) {
+              gem.correctionDown = false;
+            }
           });
           break;
       }
@@ -151,10 +188,16 @@ const gameApp = {
 
   createGems() {
     for (let i = 0; i < this.MAX_Gems; i++) {
-      const newGem = new Gem(this.ctx);
+      const newGem = new Gem(this.ctx, this.canvasSize);
 
       this.gems.push(newGem);
     }
+  },
+
+  addGem() {
+    const additionalGem = new Gem(this.ctx);
+
+    this.gems.push(additionalGem);
   },
 
   pickUpGems() {
@@ -163,23 +206,52 @@ const gameApp = {
       let playerPosY = this.canvasSize.h / 2 - this.magusSize.h / 2;
 
       if (
-        playerPosX < gem.gemPosition.x + gem.gemSize.w &&
-        playerPosX + this.magusSize.w > gem.gemPosition.x &&
-        playerPosY < gem.gemPosition.y + gem.gemSize.h &&
-        this.magusSize.h + playerPosY > gem.gemPosition.y
+        playerPosX < gem.gemPosition.x + gem.gemSize.w - 20 &&
+        playerPosX + this.magusSize.w - 20 > gem.gemPosition.x &&
+        playerPosY < gem.gemPosition.y + gem.gemSize.h - 20 &&
+        this.magusSize.h - 20 + playerPosY > gem.gemPosition.y
       ) {
-        console.log(`coge la gema ${i}`);
+        this.score += 1;
+        this.gems.splice(i, 1);
+        console.log(this.gems);
+        this.addGem();
+        console.log(this.gems);
+        this.timerCounter += 5;
       }
-      // if (
-      //   this.map.mapPosition.x * -1 + 347 < gem.gemPosition.x + gem.gemSize.w &&
-      //   this.map.mapPosition.x * -1 + 347 + this.map.mapSize.w >
-      //     gem.gemPosition.x &&
-      //   this.map.mapPosition.y * -1 + 350 < gem.gemPosition.y + gem.gemSize.h &&
-      //   this.map.mapSize.h + (this.map.mapPosition.y * -1 + 350) >
-      //     gem.gemPosition.y
-      // ) {
-      //   console.log("coge la gema");
-      // }
     });
+  },
+
+  showScores() {
+    // show scores
+    this.ctx.font = "30px Verdana";
+    this.ctx.fillText("Collected Gems: " + this.score, 500, 100);
+  },
+
+  timer() {
+    this.ctx.font = "30px Verdana";
+    this.ctx.fillText("Timer: " + this.timerCounter, 100, 100);
+  },
+
+  addZeros(num) {
+    if (num < 10) {
+      num = "0" + num;
+    }
+    return num;
+  },
+
+  outOfTime() {
+    clearInterval(this.intervalId);
+    setInterval(() => {
+      console.log(this.ctx);
+      this.ctx.fillStyle = "black";
+      this.ctx.fillRect(0, 0, this.canvasSize.w, this.canvasSize.h);
+      this.ctx.strokeStyle = "purple";
+      this.ctx.font = "80px Verdana";
+      this.ctx.strokeText("Game Over", 200, 300);
+      this.ctx.font = "40px Verdana";
+      this.ctx.strokeText("You collected " + this.score + " gems!!!", 200, 400);
+
+      console.log(this.ctx);
+    }, 1000 / 60);
   },
 };

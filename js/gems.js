@@ -1,5 +1,5 @@
 class Gem {
-  constructor(ctx) {
+  constructor(ctx, canvasSize) {
     this.ctx = ctx;
     this.gemSize = {
       w: 100,
@@ -8,9 +8,11 @@ class Gem {
     this.gemPosition = {
       // x: 200,
       // y: 0,
-      x: Math.floor(Math.random() * (2400 - 402) + 402),
-      y: Math.floor(Math.random() * (2400 - 402) + 402),
+      x: Math.floor(Math.random() * (2250 - 250) + 250),
+      y: Math.floor(Math.random() * (2250 - 250) + 250),
     };
+
+    this.canvasSize = canvasSize;
 
     this.correctionLeft = false;
     this.correctionRight = false;

@@ -1,4 +1,6 @@
 window.onload = () => {
-  const canvas = document.querySelector("#canvas");
-  gameApp.init(canvas);
+  document.getElementById("startGame").onclick = () => {
+    const canvas = document.querySelector("#canvas");
+    gameApp.init(canvas);
+  };
 };
