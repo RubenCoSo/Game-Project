@@ -21,7 +21,7 @@ const gameApp = {
     this.magus.src = "/images/wizard2.png";
     this.setListeners();
     this.createGems();
-    console.log(this.gems);
+    // console.log(this.gems);
     this.screenRefresh();
   },
 
@@ -55,9 +55,10 @@ const gameApp = {
     setInterval(() => {
       this.clearCanvas();
       this.map.move();
-      console.log(this.map.mapPosition);
+      // console.log(this.map.mapPosition);
       this.gems.forEach((gem) => gem.correction());
       this.drawAll();
+      this.pickUpGems();
     }, 1000 / 60);
   },
 
@@ -156,9 +157,29 @@ const gameApp = {
     }
   },
 
-  // pickUpGems(){
-  //     this.gems.forEach((gem, i)=>{
-  //         if (this.map.mapPosition.x === gem.gemPosition.x && this.map.mapPosition.x === gem.gemPosition.x)
-  //     })
-  // }
+  pickUpGems() {
+    this.gems.forEach((gem, i) => {
+      let playerPosX = this.canvasSize.w / 2 - this.magusSize.w / 2;
+      let playerPosY = this.canvasSize.h / 2 - this.magusSize.h / 2;
+
+      if (
+        playerPosX < gem.gemPosition.x + gem.gemSize.w &&
+        playerPosX + this.magusSize.w > gem.gemPosition.x &&
+        playerPosY < gem.gemPosition.y + gem.gemSize.h &&
+        this.magusSize.h + playerPosY > gem.gemPosition.y
+      ) {
+        console.log(`coge la gema ${i}`);
+      }
+      // if (
+      //   this.map.mapPosition.x * -1 + 347 < gem.gemPosition.x + gem.gemSize.w &&
+      //   this.map.mapPosition.x * -1 + 347 + this.map.mapSize.w >
+      //     gem.gemPosition.x &&
+      //   this.map.mapPosition.y * -1 + 350 < gem.gemPosition.y + gem.gemSize.h &&
+      //   this.map.mapSize.h + (this.map.mapPosition.y * -1 + 350) >
+      //     gem.gemPosition.y
+      // ) {
+      //   console.log("coge la gema");
+      // }
+    });
+  },
 };

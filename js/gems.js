@@ -8,8 +8,8 @@ class Gem {
     this.gemPosition = {
       // x: 200,
       // y: 0,
-      x: Math.floor(Math.random() * 2000),
-      y: Math.floor(Math.random() * 2000),
+      x: Math.floor(Math.random() * (2400 - 402) + 402),
+      y: Math.floor(Math.random() * (2400 - 402) + 402),
     };
 
     this.correctionLeft = false;
