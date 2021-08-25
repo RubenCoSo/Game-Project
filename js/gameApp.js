@@ -21,7 +21,7 @@ const gameApp = {
     this.setCanvasDimension(canvas);
     this.newMap();
     this.magus = new Image();
-    this.magus.src = "/images/wizard2.png";
+    this.magus.src = "../images/wizard2.png";
     this.setListeners();
     this.createGems();
     console.log(this.gems);
@@ -63,7 +63,7 @@ const gameApp = {
       this.pickUpGems();
       this.showScores();
       this.frameCounter++;
-      console.log(this.map.mapPosition);
+      // console.log(this.map.mapPosition);
       // if (this.gems.length !== 5) {
       //   this.createGems;
       // }
@@ -81,16 +81,16 @@ const gameApp = {
     this.map.drawMap();
     this.drawMagus();
 
-    for (let i = 0; i < this.gems.length; i++) {
-      this.ctx.drawImage(
-        this.gems[i].gem,
-        this.gems[i].gemPosition.x,
-        this.gems[i].gemPosition.y,
-        this.gems[i].gemSize.w,
-        this.gems[i].gemSize.h
-      );
-    }
-    // this.gems.forEach((gem) => gem.draw());
+    // for (let i = 0; i < this.gems.length; i++) {
+    //   // this.ctx.drawImage(
+    //     this.gems[i].gem,
+    //     this.gems[i].gemPosition.x,
+    //     this.gems[i].gemPosition.y,
+    //     this.gems[i].gemSize.w,
+    //     this.gems[i].gemSize.h
+    //   );
+    // }
+    this.gems.forEach((gem) => gem.draw());
   },
 
   setListeners() {
@@ -190,7 +190,7 @@ const gameApp = {
 
   createGems() {
     for (let i = 0; i < this.MAX_Gems; i++) {
-      const newGem = new Gem(this.ctx, this.canvasSize);
+      const newGem = new Gem(this.ctx, this.map.mapPosition);
 
       this.gems.push(newGem);
     }
@@ -198,34 +198,19 @@ const gameApp = {
 
   // Math.floor(Math.random() * (max - min) + min)
 
-  addGem(referenceGem) {
-    const additionalGem = new Gem(this.ctx);
+  addGem() {
+    const additionalGem = new Gem(this.ctx, this.map.mapPosition);
 
-    // let posOrNeg = (theRandomNumber = Math.floor(Math.random() * 10) + 1);
+    this.gems = this.gems.filter((gem) => {
+      gem.gemPosition.x > this.map.mapPosition.x &&
+        gem.gemPosition.x < this.map.mapPosition.x + 2400 &&
+        gem.gemPosition.y > this.map.mapPosition.y &&
+        gem.gemPosition.y < this.map.mapPosition.y + 2400;
+    });
 
-    // if (posOrNeg > 5) {
-    //   additionalGem.gemPosition.x = Math.floor(
-    //     Math.random() * (2250 - referenceGem[0].gemPosition.x - 0) + 0
-    //   );
-    //   additionalGem.gemPosition.y = Math.floor(
-    //     Math.random() * (2250 - referenceGem[0].gemPosition.y - 0) + 0
-    //   );
-    // } else {
-    //   additionalGem.gemPosition.x =
-    //     Math.floor(
-    //       Math.random() *
-    //         (2800 - 402 - (2250 - referenceGem[0].gemPosition.x) - 0) +
-    //         0
-    //     ) * -1;
-    //   additionalGem.gemPosition.y =
-    //     Math.floor(
-    //       Math.random() *
-    //         (2800 - 402 - (2250 - referenceGem[0].gemPosition.y) - 0) +
-    //         0
-    //     ) * -1;
-    // }
+    console.log(this.gems);
 
-    this.gems.push(additionalGem);
+    additionalGem.gemPosition.x = this.gems.push(additionalGem);
   },
 
   pickUpGems() {
@@ -241,10 +226,10 @@ const gameApp = {
       ) {
         this.score += 1;
         this.referenceGem = this.gems.splice(i, 1);
-        console.log(this.gems);
-        console.log(this.referenceGem);
+        // console.log(this.gems);
+        // console.log(this.referenceGem);
         this.addGem(this.referenceGem);
-        console.log(this.gems);
+        // console.log(this.gems);
         this.timerCounter += 5;
       }
     });

@@ -1,18 +1,33 @@
 class Gem {
-  constructor(ctx, canvasSize) {
+  constructor(ctx, map) {
     this.ctx = ctx;
     this.gemSize = {
       w: 100,
       h: 100,
     };
+    // y: Math.floor(Math.random() * (max - min) + min)
+
+    this.map = map;
+
+    // console.log(map);
+
+    // if (!map) {
+    //   this.gemPosition = {
+    //     x: Math.floor(Math.random() * (2250 - 250) + 250),
+    //     y: Math.floor(Math.random() * (2250 - 250) + 250),
+    //   };
+    // } else {
     this.gemPosition = {
-      // x: 200,
-      // y: 0,
-      x: Math.floor(Math.random() * (2250 - 250) + 250),
-      y: Math.floor(Math.random() * (2250 - 250) + 250),
+      x: Math.floor(Math.random() * (2250 - map.x) + map.x),
+      y: Math.floor(Math.random() * (2250 - map.y) + map.y),
     };
 
-    this.canvasSize = canvasSize;
+    // console.log(this.gemPosition.x);
+    // console.log(this.gemPosition.y);
+
+    // }
+
+    // this.canvasSize = canvasSize;
 
     this.correctionLeft = false;
     this.correctionRight = false;
@@ -28,9 +43,11 @@ class Gem {
       this.gem,
       this.gemPosition.x,
       this.gemPosition.y,
-      this.gemSize.x,
-      this.gemSize.y
+      this.gemSize.w,
+      this.gemSize.h
     );
+    // console.log("hola");
+    // console.log(this.ctx);
   }
 
   correction() {
