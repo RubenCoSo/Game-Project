@@ -6,6 +6,8 @@ body {
 
 canvas {
   padding-top: 5rem;
+
+  display: none;
 }
 
 #gameView {
