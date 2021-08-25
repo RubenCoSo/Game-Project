@@ -8,18 +8,14 @@ const gameApp = {
     w: 80,
     h: 80,
   },
-
   intervalId: undefined,
-
   score: 0,
-
   gems: [],
-
   MAX_Gems: 5,
-
   frameCounter: 0,
+  timerCounter: 1000,
+  referenceGem: undefined,
 
-  timerCounter: 10000,
   init(canvas) {
     this.getContext(canvas);
     this.setCanvasDimension(canvas);
@@ -28,7 +24,7 @@ const gameApp = {
     this.magus.src = "/images/wizard2.png";
     this.setListeners();
     this.createGems();
-    // console.log(this.gems);
+    console.log(this.gems);
     this.screenRefresh();
   },
 
@@ -115,8 +111,10 @@ const gameApp = {
           this.map.moveUp = true;
           // this.gems[0].correctionUp = true;
           this.gems.forEach((gem) => {
-            if (this.map.mapPosition.x > this.canvasSize.w * -3) {
+            if (this.map.mapPosition.y < 402) {
               gem.correctionUp = true;
+            } else {
+              gem.correctionUp = false;
             }
           });
           break;
@@ -124,8 +122,10 @@ const gameApp = {
           this.map.moveRight = true;
           // this.gems[0].correctionRight = true;
           this.gems.forEach((gem) => {
-            if (this.map.mapPosition.y < this.canvasSize.h / 2) {
+            if (this.map.mapPosition.x > -2400) {
               gem.correctionRight = true;
+            } else {
+              gem.correctionRight = false;
             }
           });
           break;
@@ -133,8 +133,10 @@ const gameApp = {
           this.map.moveDown = true;
           // this.gems[0].correctionDown = true;
           this.gems.forEach((gem) => {
-            if (this.map.mapPosition.y > this.canvasSize.h * -3) {
+            if (this.map.mapPosition.y > -2400) {
               gem.correctionDown = true;
+            } else {
+              gem.correctionDown = false;
             }
           });
           break;
@@ -155,7 +157,7 @@ const gameApp = {
           this.map.moveUp = false;
           // this.gems[0].correctionUp = false;
           this.gems.forEach((gem) => {
-            if (this.map.mapPosition.x > this.canvasSize.w * -3) {
+            if (this.map.mapPosition.y < 402) {
               gem.correctionUp = false;
             }
           });
@@ -164,7 +166,7 @@ const gameApp = {
           this.map.moveRight = false;
           // this.gems[0].correctionRight = false;
           this.gems.forEach((gem) => {
-            if (this.map.mapPosition.y < this.canvasSize.h / 2) {
+            if (this.map.mapPosition.y > -2400) {
               gem.correctionRight = false;
             }
           });
@@ -173,7 +175,7 @@ const gameApp = {
           this.map.moveDown = false;
           // this.gems[0].correctionDown = false;
           this.gems.forEach((gem) => {
-            if (this.map.mapPosition.y > this.canvasSize.h * -3) {
+            if (this.map.mapPosition.y > -2400) {
               gem.correctionDown = false;
             }
           });
@@ -194,8 +196,34 @@ const gameApp = {
     }
   },
 
-  addGem() {
+  // Math.floor(Math.random() * (max - min) + min)
+
+  addGem(referenceGem) {
     const additionalGem = new Gem(this.ctx);
+
+    // let posOrNeg = (theRandomNumber = Math.floor(Math.random() * 10) + 1);
+
+    // if (posOrNeg > 5) {
+    //   additionalGem.gemPosition.x = Math.floor(
+    //     Math.random() * (2250 - referenceGem[0].gemPosition.x - 0) + 0
+    //   );
+    //   additionalGem.gemPosition.y = Math.floor(
+    //     Math.random() * (2250 - referenceGem[0].gemPosition.y - 0) + 0
+    //   );
+    // } else {
+    //   additionalGem.gemPosition.x =
+    //     Math.floor(
+    //       Math.random() *
+    //         (2800 - 402 - (2250 - referenceGem[0].gemPosition.x) - 0) +
+    //         0
+    //     ) * -1;
+    //   additionalGem.gemPosition.y =
+    //     Math.floor(
+    //       Math.random() *
+    //         (2800 - 402 - (2250 - referenceGem[0].gemPosition.y) - 0) +
+    //         0
+    //     ) * -1;
+    // }
 
     this.gems.push(additionalGem);
   },
@@ -212,9 +240,10 @@ const gameApp = {
         this.magusSize.h - 20 + playerPosY > gem.gemPosition.y
       ) {
         this.score += 1;
-        this.gems.splice(i, 1);
+        this.referenceGem = this.gems.splice(i, 1);
         console.log(this.gems);
-        this.addGem();
+        console.log(this.referenceGem);
+        this.addGem(this.referenceGem);
         console.log(this.gems);
         this.timerCounter += 5;
       }
