@@ -18,8 +18,8 @@ class Gem {
     //   };
     // } else {
     this.gemPosition = {
-      x: Math.floor(Math.random() * (2250 - map.x) + map.x),
-      y: Math.floor(Math.random() * (2250 - map.y) + map.y),
+      x: Math.floor(Math.random() * (2400 - map.x) + map.x),
+      y: Math.floor(Math.random() * (2400 - map.y) + map.y),
     };
 
     // console.log(this.gemPosition.x);
@@ -41,8 +41,8 @@ class Gem {
   draw() {
     this.ctx.drawImage(
       this.gem,
-      this.gemPosition.x,
-      this.gemPosition.y,
+      this.map.x + this.gemPosition.x,
+      this.map.y + this.gemPosition.y,
       this.gemSize.w,
       this.gemSize.h
     );

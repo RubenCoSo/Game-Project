@@ -58,7 +58,6 @@ const gameApp = {
     this.intervalId = setInterval(() => {
       this.clearCanvas();
       this.map.move();
-      this.gems.forEach((gem) => gem.correction());
       this.drawAll();
       this.pickUpGems();
       this.showScores();
@@ -197,20 +196,19 @@ const gameApp = {
   },
 
   // Math.floor(Math.random() * (max - min) + min)
+  // this.gems = this.gems.filter((gem) => {
+  //   gem.gemPosition.x > this.map.mapPosition.x &&
+  //     gem.gemPosition.x < this.map.mapPosition.x + 2400 &&
+  //     gem.gemPosition.y > this.map.mapPosition.y &&
+  //     gem.gemPosition.y < this.map.mapPosition.y + 2400;
+  // });
 
   addGem() {
     const additionalGem = new Gem(this.ctx, this.map.mapPosition);
 
-    this.gems = this.gems.filter((gem) => {
-      gem.gemPosition.x > this.map.mapPosition.x &&
-        gem.gemPosition.x < this.map.mapPosition.x + 2400 &&
-        gem.gemPosition.y > this.map.mapPosition.y &&
-        gem.gemPosition.y < this.map.mapPosition.y + 2400;
-    });
-
     console.log(this.gems);
 
-    additionalGem.gemPosition.x = this.gems.push(additionalGem);
+    this.gems.push(additionalGem);
   },
 
   pickUpGems() {
@@ -219,16 +217,20 @@ const gameApp = {
       let playerPosY = this.canvasSize.h / 2 - this.magusSize.h / 2;
 
       if (
-        playerPosX < gem.gemPosition.x + gem.gemSize.w - 20 &&
-        playerPosX + this.magusSize.w - 20 > gem.gemPosition.x &&
-        playerPosY < gem.gemPosition.y + gem.gemSize.h - 20 &&
-        this.magusSize.h - 20 + playerPosY > gem.gemPosition.y
+        playerPosX <
+          this.map.mapPosition.x + gem.gemPosition.x + gem.gemSize.w - 20 &&
+        playerPosX + this.magusSize.w - 20 >
+          this.map.mapPosition.x + gem.gemPosition.x &&
+        playerPosY <
+          this.map.mapPosition.y + gem.gemPosition.y + gem.gemSize.h - 20 &&
+        this.magusSize.h - 20 + playerPosY >
+          this.map.mapPosition.y + gem.gemPosition.y
       ) {
         this.score += 1;
-        this.referenceGem = this.gems.splice(i, 1);
+        this.gems.splice(i, 1);
         // console.log(this.gems);
         // console.log(this.referenceGem);
-        this.addGem(this.referenceGem);
+        this.addGem();
         // console.log(this.gems);
         this.timerCounter += 5;
       }
