@@ -5,7 +5,6 @@ class Gem {
       w: 100,
       h: 100,
     };
-    // y: Math.floor(Math.random() * (max - min) + min)
 
     this.map = map;
 
@@ -31,7 +30,5 @@ class Gem {
       this.gemSize.w,
       this.gemSize.h
     );
-    // console.log("hola");
-    // console.log(this.ctx);
   }
 }

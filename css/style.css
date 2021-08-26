@@ -11,7 +11,7 @@ body {
 }
 
 canvas {
-  padding-top: 5rem;
+  padding-top: 2.5rem;
   display: none;
 }
 
@@ -22,17 +22,39 @@ canvas {
   padding-top: 50px;
 }
 
-#gameTittle {
+.gameTittle {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
 }
 
-#gameTittle > img {
-  width: 50%;
+.gameSide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
+.timerOnScreen {
+  color: blueviolet;
+}
+
+#counter {
+  display: flex;
+  align-items: center;
+}
+
+.gemsCounter {
+  font-size: 5rem;
+}
+.gameTittle > img {
+  width: 50%;
+}
+.gameSide > img {
+  width: 75%;
+  padding-bottom: 5rem;
+}
 #startGame {
   height: 5rem;
   width: 15rem;

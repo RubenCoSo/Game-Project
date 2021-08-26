@@ -19,34 +19,20 @@ const gameApp = {
 
   //game settings
   intervalId: undefined,
-  score: 0,
+  score: undefined,
   gems: [],
   MAX_Gems: 5,
   frameCounter: 0,
   timerCounter: 10,
+  timerToShow: "",
+  minutes: undefined,
+  seconds: undefined,
 
-  //explossion
-  explosionRef: undefined,
-  expIndX: 0,
-  expIndY: 0,
-  expW: 10,
-  expH: 10,
-  expSize: {
-    W: 100,
-    h: 100,
-  },
   crystalSound: document.getElementById("pickAGem"),
-  intervalExp: undefined,
-  refGem: undefined,
-
-  // //DOM constants
-  // counter: document.getElementById("counter"),
-  // timer: document.getElementById("timer"),
 
   init(canvas) {
     this.getContext(canvas);
     this.setCanvasDimension(canvas);
-    // this.timer.appendChild(this.timerHTML);
     this.newMap();
     this.magus = new Image();
     this.magus.src = "../images/mage.png";
@@ -54,10 +40,6 @@ const gameApp = {
     this.createGems();
     this.explosion = new Image();
     this.explosion.src = "../images/explossion.png";
-    // this.crystalSound = sound(
-    //   "../audio/GemCrystal Collect Sound Effect Crash Bandicoot N. Sane Trilogy.mp3"
-    // );
-    // console.log(this.gems);
     this.screenRefresh();
   },
 
@@ -179,8 +161,6 @@ const gameApp = {
     }
   },
 
-  // Math.floor(Math.random() * (max - min) + min)
-
   filterGem() {
     this.gems = this.gems.filter(
       (gem) =>
@@ -191,9 +171,7 @@ const gameApp = {
         gem.gemPosition.y + this.map.mapPosition.y <
           this.map.mapPosition.y + 2400
     );
-    // console.log(this.gems);
     this.gems.length < this.MAX_Gems ? this.createGems() : null;
-    // console.log(this.gems);
   },
 
   pickUpGems() {
@@ -214,12 +192,7 @@ const gameApp = {
         this.score += 1;
         this.refGem = this.gems.splice(i, 1);
         let pickaGem = document.getElementById("pickAGem");
-        console.log(pickaGem);
         pickaGem.play();
-
-        // console.log(this.gems);
-        // console.log(this.referenceGem)
-        // console.log(this.gems);
         this.score < 10 ? (this.timerCounter += 3) : null;
         this.score < 15 ? (this.timerCounter += 2) : null;
         this.score < 20 ? (this.timerCounter += 1) : null;
@@ -229,43 +202,10 @@ const gameApp = {
     });
   },
 
-  gemExplosion(gem) {
-    let expCounter = 0;
-    this.intervalExp = setInterval(() => {
-      this.ctx.clearRect(0, 0);
-      this.ctx.drawImage(
-        this.explosion,
-        this.expIndX * this.expW,
-        this.expIndY * this.expH,
-        this.expW,
-        this.expH,
-        this.map.mapPosition.x + gem.gemPosition.x,
-        this.map.mapPosition.y + gem.gemPosition.y,
-        this.expSize.w,
-        this.expSize.y
-      );
-
-      expCounter += 1;
-      this.expIndX += 1;
-      if (this.expIndX > 9) {
-        this.expIndY = +1;
-        this.expIndX = 0;
-      }
-      if (this.expIndY > 7) {
-        this.expIndY = 0;
-      }
-      console.log(gem);
-      console.log("rula");
-    }, 100);
-    setTimeout(() => {
-      clearInterval(this.intervalExp);
-    }, 2000);
-  },
-
   showScores() {
-    // show scores
     this.ctx.font = "30px Verdana";
     this.ctx.fillText("Collected Gems: " + this.score, 500, 100);
+    return this.scores;
   },
 
   timer() {
@@ -275,34 +215,20 @@ const gameApp = {
     if (this.timerCounter < 60) {
       this.ctx.fillText("Timer: 00:" + this.timerCounter, 100, 100);
     } else {
-      minutes = this.timerCounter / 60;
-      seconds = this.timerCounter % 60;
-      minutes < 9 ? (minutes = `0${minutes}`) : (minutes = `${minutes}`);
-      seconds.length === 1
-        ? (seconds = `0${seconds}`)
-        : (seconds = `${seconds}`);
-      this.ctx.fillText("Timer:" + minutes + ":" + seconds, 100, 100);
+      this.minutes = this.timerCounter / 60;
+      this.seconds = this.timerCounter % 60;
+      this.minutes > 9
+        ? (this.minutes = `0${this.minutes}`)
+        : (this.minutes = `${this.minutes}`);
+      this.seconds > 9
+        ? (this.seconds = `0${this.seconds}`)
+        : (this.seconds = `${this.seconds}`);
     }
-
-    // this.timerHTML = document.createElement("p");
-    // this.node = document.createTextNode(
-    //   `"Timer:  ${this.minutes}:${this.seconds}`
-    // );
-    // this.timerHTML.appenchild(this.node);
-    // this.timerHTML.setAttribute("class", "gametimer");
-  },
-
-  addZeros(num) {
-    if (num < 10) {
-      num = "0" + num;
-    }
-    return num;
   },
 
   outOfTime() {
     clearInterval(this.intervalId);
     setInterval(() => {
-      console.log(this.ctx);
       this.ctx.fillStyle = "black";
       this.ctx.fillRect(0, 0, this.canvasSize.w, this.canvasSize.h);
       this.ctx.strokeStyle = "purple";
@@ -310,8 +236,6 @@ const gameApp = {
       this.ctx.strokeText("Game Over", 200, 300);
       this.ctx.font = "40px Verdana";
       this.ctx.strokeText("You collected " + this.score + " gems!!!", 200, 400);
-
-      console.log(this.ctx);
     }, 1000 / 60);
   },
 };
